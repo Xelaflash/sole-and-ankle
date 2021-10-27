@@ -39,22 +39,20 @@ const ShoeIndex = ({ sortId, setSortId }) => (
 );
 
 const Wrapper = styled.div`
-  /* border: solid green; */
   display: flex;
   flex-direction: row-reverse;
-  flex-direction: row-reverse;
-  align-items: flex-start;
+  align-items: baseline;
   justify-content: space-between;
+  gap: 32px;
 `;
 
 const LeftColumn = styled.div`
-  /* border: solid red; */
   flex-basis: 248px;
-  margin-top: 14px;
+  /* i had this to solve the text alignment. I forgot to use baseline on flex container 🤦🏻‍♂️ */
+  /* margin-top: 14px; */
 `;
 
 const MainColumn = styled.div`
-  /* border: solid yellow; */
   flex: 1;
 `;
 

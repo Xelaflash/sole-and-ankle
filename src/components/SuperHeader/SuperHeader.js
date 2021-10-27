@@ -1,17 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { COLORS } from '../../constants';
+import { COLORS } from "../../constants";
 
-import SearchInput from '../SearchInput';
-import UnstyledButton from '../UnstyledButton';
-import Icon from '../Icon';
+import SearchInput from "../SearchInput";
+import UnstyledButton from "../UnstyledButton";
+import Icon from "../Icon";
 
 const SuperHeader = () => (
   <Wrapper>
     <MarketingMessage>
       Free shipping on domestic orders over $75!
     </MarketingMessage>
+    {/* i 've created this wrapper in order to have 2 flex items in the correction  Josh solves that by setting margin-right: auto; on the wrapper and there is no need for that extra wrapper */}
     <FlexWrapper>
       <SearchInput />
       <HelpLink href="/help">Help</HelpLink>
@@ -30,17 +31,18 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-left: 32px;
+  padding-right: 32px;
 `;
 
 const MarketingMessage = styled.span`
   color: ${COLORS.white};
-  padding-left: 32px;
 `;
 
+//
 const FlexWrapper = styled.div`
   display: flex;
-  padding-right: 18px;
-  gap: 27px;
+  gap: 24px;
 `;
 
 const HelpLink = styled.a`

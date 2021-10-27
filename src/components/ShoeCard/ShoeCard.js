@@ -32,36 +32,47 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+  // MY solution but it was not really ok even if working
   // We evaluate the value of the variant props and assign a variant style and inner text accordingly.
-  let SalePriceComponent;
-  if (variant === "new-release") {
-    SalePriceComponent = NewReleaseStyle;
-    SalePriceComponent.innerText = "Just Released!";
-  } else if (variant === "on-sale") {
-    SalePriceComponent = OnSaleStyle;
-    SalePriceComponent.innerText = "Sale";
-  } else if (variant === "default") {
-    SalePriceComponent = defaultStyle;
-  } else {
-    throw new Error(`Unrecognized variant: ${variant}`);
-  }
+  // let SalePriceComponent;
+  // if (variant === "new-release") {
+  //   SalePriceComponent = NewReleaseStyle;
+  //   SalePriceComponent.innerText = "Just Released!";
+  // } else if (variant === "on-sale") {
+  //   SalePriceComponent = OnSaleStyle;
+  //   SalePriceComponent.innerText = "Sale";
+  // } else if (variant === "default") {
+  //   SalePriceComponent = defaultStyle;
+  // } else {
+  //   throw new Error(`Unrecognized variant: ${variant}`);
+  // }
 
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
-        <SalePriceComponent variant={variant}>
-          {SalePriceComponent.innerText}
-        </SalePriceComponent>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
+          {variant === "on-sale" && <SaleFlag>Sale</SaleFlag>}
+          {variant === "new-release" && <NewFlag>Just released!</NewFlag>}
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price
+            style={{
+              "--color": variant === "on-sale" ? COLORS.gray[700] : undefined,
+              "--text-decoration":
+                variant === "on-sale" ? "line-through" : undefined,
+            }}
+          >
+            {formatPrice(price)}
+          </Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
+          {variant === "on-sale" ? (
+            <SalePrice>{formatPrice(salePrice)}</SalePrice>
+          ) : undefined}
         </Row>
       </Wrapper>
     </Link>
@@ -74,9 +85,7 @@ const Link = styled.a`
 `;
 
 const Wrapper = styled.article`
-  width: 315px;
   position: relative;
-  isolation: isolate;
 `;
 
 const ImageWrapper = styled.div`
@@ -100,32 +109,62 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  color: var(--color);
+  text-decoration: var(--text-decoration);
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
 `;
 
 const SalePrice = styled.span`
+  font-weight: ${WEIGHTS.medium};
+  color: ${COLORS.primary};
+`;
+
+// const SalePrice = styled.span`
+//   font-weight: ${WEIGHTS.bold};
+//   color: ${COLORS.white};
+//   border-radius: 2px;
+//   padding: 8px;
+//   position: absolute;
+//   right: -4px;
+//   top: 8px;
+//   z-index: 2;
+// `;
+
+const Flag = styled.div`
+  position: absolute;
+  top: 12px;
+  right: -4px;
+  background: red;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  font-size: ${14 / 18}rem;
   font-weight: ${WEIGHTS.bold};
   color: ${COLORS.white};
   border-radius: 2px;
-  padding: 8px;
-  position: absolute;
-  right: -4px;
-  top: 8px;
-  z-index: 2;
 `;
 
-// define les diff variant styles du composant SalePrice with styled component composition
-const NewReleaseStyle = styled(SalePrice)`
-  background-color: ${COLORS.secondary};
-`;
-const OnSaleStyle = styled(SalePrice)`
+const SaleFlag = styled(Flag)`
   background-color: ${COLORS.primary};
 `;
-const defaultStyle = styled(SalePrice)`
-  display: none;
+const NewFlag = styled(Flag)`
+  background-color: ${COLORS.secondary};
 `;
+
+//  CSS of my solution for flags featurs
+// define les diff variant styles du composant SalePrice with styled component composition
+// const NewReleaseStyle = styled(SalePrice)`
+//   background-color: ${COLORS.secondary};
+// `;
+// const OnSaleStyle = styled(SalePrice)`
+//   background-color: ${COLORS.primary};
+// `;
+// const defaultStyle = styled(SalePrice)`
+//   display: none;
+// `;
 
 export default ShoeCard;
