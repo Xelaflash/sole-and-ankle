@@ -18,6 +18,7 @@ const ShoeCard = ({
   //   - new-release
   //   - on-sale
   //   - default
+
   //
   // Any shoe released in the last month will be considered
   // `new-release`. Any shoe with a `salePrice` will be
@@ -31,9 +32,26 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+  // We evaluate the value of the variant props and assign a variant style and inner text accordingly.
+  let SalePriceComponent;
+  if (variant === "new-release") {
+    SalePriceComponent = NewReleaseStyle;
+    SalePriceComponent.innerText = "Just Released!";
+  } else if (variant === "on-sale") {
+    SalePriceComponent = OnSaleStyle;
+    SalePriceComponent.innerText = "Sale";
+  } else if (variant === "default") {
+    SalePriceComponent = defaultStyle;
+  } else {
+    throw new Error(`Unrecognized variant: ${variant}`);
+  }
+
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
+        <SalePriceComponent variant={variant}>
+          {SalePriceComponent.innerText}
+        </SalePriceComponent>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
@@ -57,6 +75,8 @@ const Link = styled.a`
 
 const Wrapper = styled.article`
   width: 315px;
+  position: relative;
+  isolation: isolate;
 `;
 
 const ImageWrapper = styled.div`
@@ -87,8 +107,25 @@ const ColorInfo = styled.p`
 `;
 
 const SalePrice = styled.span`
-  font-weight: ${WEIGHTS.medium};
-  color: ${COLORS.primary};
+  font-weight: ${WEIGHTS.bold};
+  color: ${COLORS.white};
+  border-radius: 2px;
+  padding: 8px;
+  position: absolute;
+  right: -4px;
+  top: 8px;
+  z-index: 2;
+`;
+
+// define les diff variant styles du composant SalePrice with styled component composition
+const NewReleaseStyle = styled(SalePrice)`
+  background-color: ${COLORS.secondary};
+`;
+const OnSaleStyle = styled(SalePrice)`
+  background-color: ${COLORS.primary};
+`;
+const defaultStyle = styled(SalePrice)`
+  display: none;
 `;
 
 export default ShoeCard;
