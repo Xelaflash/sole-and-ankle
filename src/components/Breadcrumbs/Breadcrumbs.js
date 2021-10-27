@@ -1,21 +1,19 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 import React from 'react';
 import styled from 'styled-components/macro';
 
 import { COLORS } from '../../constants';
 
-const Breadcrumbs = ({ children }) => {
-  return <Wrapper>{children}</Wrapper>;
-};
+const Breadcrumbs = ({ children }) => <Wrapper>{children}</Wrapper>;
 
-Breadcrumbs.Crumb = ({ href, children, delegated }) => {
-  return (
-    <CrumbWrapper>
-      <CrumbLink href={href} {...delegated}>
-        {children}
-      </CrumbLink>
-    </CrumbWrapper>
-  );
-};
+Breadcrumbs.Crumb = ({ href, children, delegated }) => (
+  <CrumbWrapper>
+    <CrumbLink href={href} {...delegated}>
+      {children}
+    </CrumbLink>
+  </CrumbWrapper>
+);
 
 const CrumbWrapper = styled.div`
   &:not(:first-of-type) {
